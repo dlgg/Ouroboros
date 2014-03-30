@@ -8,8 +8,15 @@ configFile = "ouroboros.ini"
 config = configparser.ConfigParser()
 try:
     config.readfp(open(configFile))
+except FileNotFoundError:
+    print("Configuration file {0} doesn't exist.".format(configFile))
+    sys.exit()
+except PermissionError:
+    print("Unable to read configuration file. Please check permissions for {0}.".format(configFile))
+    sys.exit()
 except:
     print("Unable to read configuration or configuration in wrong format.")
+    print("Please report following error to https://github.com/dlgg/Ouroboros/issues")
     print(sys.exc_info())
     sys.exit()
 
