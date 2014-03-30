@@ -117,8 +117,8 @@ class Irc(object):
         self.send("PONG {0}".format(srv))
 
     def _raw005(self, msg):
-        send("JOIN {0}".format(self.adminchan))
-        send("JOIN {0}".format(",".join(self.chans)))
+        self.send("JOIN {0}".format(self.adminchan))
+        self.send("JOIN {0}".format(",".join(self.chans)))
 
     def _cmdJoin(self, msg):
         msgs = msg.split()
