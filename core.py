@@ -2,10 +2,21 @@
 # -*- coding: utf-8 -*-
 #
 
-import configparser, sys
+import configparser, sys, colorama
+from colorama import Fore
 from hebeo import irc
 
 configFile = "ouroboros.ini"
+
+###
+#   code is below
+###
+colorama.init(autoreset=True)
+def debug(msg):
+    print(Fore.YELLOW + "DEBUG >>> {0}".format(msg))
+
+def prtErr(msg):
+    print(Fore.RED + "ERROR >>> {0}".format(msg))
 
 config = configparser.ConfigParser()
 try:
