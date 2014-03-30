@@ -10,7 +10,7 @@ class Irc(object):
     def __init__(self, o, s):
         self.name = s['name']
         self.host = s['host']
-        self.port = s['port']
+        self.port = int(s['port'])
         self.nick = s['nick']
         self.ident = s['ident']
         self.realname = s['realname']
