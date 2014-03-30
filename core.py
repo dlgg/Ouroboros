@@ -38,3 +38,4 @@ print()
 i = [None,None,None,None,None,None]
 i[0] = irc.Irc(config['ouroboros'], config['irc1'])
 i[0].status()
+i[0].connect()
