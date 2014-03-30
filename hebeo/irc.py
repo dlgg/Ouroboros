@@ -94,7 +94,7 @@ class Irc(object):
         dest = msgs[2]
         if dest.lower() == self.adminchan.lower():
             print("DEBUG : {0}".format(msgs[3][1:]))
-            cmd = { '?join': self._cmdJoin, '?part':self._cmdPart, '?quit':self._cmdQuit }
+            cmd = { '%join': self._cmdJoin, '%part':self._cmdPart, '%quit':self._cmdQuit }
             try:
                 cmd.get(msgs[3][1:])(msg)
             except:
