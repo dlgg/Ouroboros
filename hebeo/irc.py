@@ -41,7 +41,7 @@ class Irc(object):
         self.flag = True;
         while self.flag:
             try:
-                input,output,exception = select.select([0, irc], [], [])
+                input,output,exception = select.select([0, self.s], [], [])
                 for i in input:
                     if i == self.s:
                         try:
