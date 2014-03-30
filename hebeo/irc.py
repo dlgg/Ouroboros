@@ -7,16 +7,16 @@ import socket, sys, select, time
 
 class Irc(object):
 
-    def __init__(self, name, host, port, nick, ident, realname, chans ):
-        self.name = name
-        self.host = host
-        self.port = port
-        self.nick = nick
-        self.ident = ident
-        self.realname = realname
-        self.chans = chans.split()
-        self.adminchan = config['global']['adminchan']
-        self.encoding = config['global']['encoding']
+    def __init__(self, o, s):
+        self.name = s['name']
+        self.host = s['host']
+        self.port = s['port']
+        self.nick = s['nick']
+        self.ident = s['ident']
+        self.realname = s['realname']
+        self.chans = s['chans'].split()
+        self.adminchan = o['adminchan']
+        self.encoding = o['encoding']
 
     def status(self):
         print("Object is configured as follow :")

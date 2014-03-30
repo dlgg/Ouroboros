@@ -35,5 +35,6 @@ for section in cfgSect:
 print("Starting IRC initialisation for server {0} ({1}:{2}) and identification {3}!{4}@host:\"{5}\" for chans {6}".format(config['irc1']['name'],config['irc1']['host'],config['irc1']['port'],config['irc1']['nick'],config['irc1']['ident'],config['irc1']['realname'],','.join(config['irc1']['chans'].split())))
 print()
 
-irc[0] = irc.Irc(config['irc1']['name'],config['irc1']['host'],config['irc1']['port'],config['irc1']['nick'],config['irc1']['ident'],config['irc1']['realname'],config['irc1']['chans'])
-irc[0].status()
+i = [None,None,None,None,None,None]
+i[0] = irc.Irc(config['ouroboros'], config['irc1'])
+i[0].status()
