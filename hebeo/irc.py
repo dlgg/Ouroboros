@@ -4,6 +4,7 @@
 print("Loading class Irc :", end=" ")
 
 import socket, sys, select, time
+from colorama import Fore
 
 class Irc(object):
 
@@ -19,14 +20,14 @@ class Irc(object):
         self.encoding = o['encoding']
 
     def status(self):
-        print("Object is configured as follow :")
+        print(Fore.CYAN + "Object is configured as follow :")
         print()
-        print("Network name           : {0}".format(self.name))
-        print("Host:port              : {0}:{1}".format(self.host, self.port))
-        print("Identification         : {0}!{1}@host:{2}".format(self.nick, self.ident, self.realname))
-        print("Channels               : {0}".format(self.chans))
-        print("Administrative channel : {0}".format(self.adminchan))
-        print("Encoding               : {0}".format(self.encoding))
+        print(Fore.CYAN + "Network name           : " + Fore.RESET + "{0}".format(self.name))
+        print(Fore.CYAN + "Host:port              : " + Fore.RESET + "{0}:{1}".format(self.host, self.port))
+        print(Fore.CYAN + "Identification         : " + Fore.RESET + "{0}!{1}@host:{2}".format(self.nick, self.ident, self.realname))
+        print(Fore.CYAN + "Channels               : " + Fore.RESET + "{0}".format(self.chans))
+        print(Fore.CYAN + "Administrative channel : " + Fore.RESET + "{0}".format(self.adminchan))
+        print(Fore.CYAN + "Encoding               : " + Fore.RESET + "{0}".format(self.encoding))
 
     def connect(self):
         self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -47,13 +48,13 @@ class Irc(object):
                         try:
                             for line in self.s.makefile(mode='r', newline='\r\n', encoding=self.encoding):
                                 if not line:
-                                    print('Shutting down')
+                                    prtErr('Shutting down')
                                     #sys.exit()
                                 else:
-                                    print("S", line)
+                                    debug("S " + line)
                                     self._parse(line)
                         except KeyboardInterrupt:
-                            print("Interrupted.")
+                            prtErr("Interrupted.")
                             self._cmdQuit("")
                         except UnicodeDecodeError:
                             pass
@@ -61,10 +62,10 @@ class Irc(object):
                             self.flag = False;
                             pass
                         except:
-                            print('Problem with the reading !!', sys.exc_info())
+                            prtErr('Problem with the reading !!', sys.exc_info())
                             continue
             except KeyboardInterrupt:
-                print("Interrupted.")
+                prtErr("Interrupted.")
                 self._cmdQuit("")
                 break
 
@@ -74,7 +75,7 @@ class Irc(object):
 
     def send(self, msg):
         toSend = msg + '\r\n'
-        print("C", msg)
+        debug("C " + msg)
         self.s.send(toSend.encode(self.encoding))
 
     def _parse(self, msg):
