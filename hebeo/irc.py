@@ -5,7 +5,7 @@ print("Loading class Irc :", end=" ")
 
 import socket, sys, select, time
 from . import tools
-from colorama import Fore
+from colorama import Fore, Style
 
 class Irc(object):
 
@@ -52,7 +52,7 @@ class Irc(object):
                                     tools.prtErr('Shutting down')
                                     #sys.exit()
                                 else:
-                                    tools.debug("S " + line)
+                                    tools.debug(Fore.MAGENTA + "S " + line)
                                     self._parse(line)
                         except KeyboardInterrupt:
                             tools.prtErr("Interrupted.")
@@ -76,7 +76,7 @@ class Irc(object):
 
     def send(self, msg):
         toSend = msg + '\r\n'
-        tools.debug("C " + msg)
+        tools.debug(Fore.CYAN + Style.BRIGHT + "C " + msg)
         self.s.send(toSend.encode(self.encoding))
 
     def _parse(self, msg):
