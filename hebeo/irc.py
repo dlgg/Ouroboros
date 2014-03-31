@@ -84,7 +84,7 @@ class Irc(object):
         raw = { 'PING':self._rawPing}
         raw.get(msgs[0], self._cmdUnknown)(msg)
         cmd = { 'PRIVMSG':self._privmsg, 'NOTICE':self._notice,
-                '005':self._raw005 }
+                '005':self._raw005, 332:self._raw332, 333:self._raw333, 353:self._raw353, 366:self._raw366, 372:self._raw372, 375:self._raw375, 376:self._raw376 }
         cmd.get(msgs[1], self._cmdUnknown)(msg)
 
     def _privmsg(self, msg):
@@ -121,6 +121,33 @@ class Irc(object):
     def _raw005(self, msg):
         self.send("JOIN {0}".format(self.adminchan))
         self.send("JOIN {0}".format(",".join(self.chans)))
+
+    def _raw332(self, msg):
+        "Topic content"
+        pass
+
+    def _raw333(self, msg):
+        "Topic setter"
+        pass
+
+    def _raw353(self, msg):
+        "/Names content"
+        pass
+
+    def _raw366(self, msg):
+        "End of /names"
+        pass
+
+    def _raw372(self, msg):
+        "MOTD Content"
+        pass
+
+    def _raw375(self, msg):
+        "MOTD Start"
+        pass
+    def _raw372(self, msg):
+        "MOTD End"
+        pass
 
     def _cmdJoin(self, msg):
         msgs = msg.split()
