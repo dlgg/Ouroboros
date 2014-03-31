@@ -4,6 +4,7 @@
 print("Loading class Irc :", end=" ")
 
 import socket, sys, select, time
+from . import tools
 from colorama import Fore
 
 class Irc(object):
@@ -48,13 +49,13 @@ class Irc(object):
                         try:
                             for line in self.s.makefile(mode='r', newline='\r\n', encoding=self.encoding):
                                 if not line:
-                                    prtErr('Shutting down')
+                                    tools.prtErr('Shutting down')
                                     #sys.exit()
                                 else:
-                                    debug("S " + line)
+                                    tools.debug("S " + line)
                                     self._parse(line)
                         except KeyboardInterrupt:
-                            prtErr("Interrupted.")
+                            tools.prtErr("Interrupted.")
                             self._cmdQuit("")
                         except UnicodeDecodeError:
                             pass
@@ -62,10 +63,10 @@ class Irc(object):
                             self.flag = False;
                             pass
                         except:
-                            prtErr('Problem with the reading !!', sys.exc_info())
+                            tools.prtErr('Problem with the reading !!', sys.exc_info())
                             continue
             except KeyboardInterrupt:
-                prtErr("Interrupted.")
+                tools.prtErr("Interrupted.")
                 self._cmdQuit("")
                 break
 
@@ -75,7 +76,7 @@ class Irc(object):
 
     def send(self, msg):
         toSend = msg + '\r\n'
-        debug("C " + msg)
+        tools.debug("C " + msg)
         self.s.send(toSend.encode(self.encoding))
 
     def _parse(self, msg):
