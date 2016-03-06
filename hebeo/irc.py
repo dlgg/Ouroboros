@@ -146,6 +146,9 @@ class Irc(object):
         "MOTD Start"
         pass
     def _raw372(self, msg):
+        "MOTD Content"
+        pass
+    def _raw376(self, msg):
         "MOTD End"
         pass
 
