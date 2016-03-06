@@ -36,9 +36,9 @@ class Irc(object):
         try:
             self.s.connect((self.host, self.port))
         except socket.error:
-            print("Connection failed.")
+            tools.prtErr("Connection failed.")
         except socket.timeout:
-            print("Connection has timed out.")
+            tools.prtErr("Connection has timed out.")
         self._boot()
         self.flag = True;
         while self.flag:
@@ -95,7 +95,7 @@ class Irc(object):
         #hostname = fullnick.split("@")[1]
         dest = msgs[2]
         if dest.lower() == self.adminchan.lower():
-            print("DEBUG : {0}".format(msgs[3][1:]))
+            tools.debug(msgs[3][1:])
             cmd = { '%join': self._cmdJoin, '%part':self._cmdPart, '%quit':self._cmdQuit }
             try:
                 cmd.get(msgs[3][1:])(msg)
