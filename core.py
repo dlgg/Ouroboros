@@ -3,6 +3,7 @@
 #
 
 import configparser, sys, colorama
+from threading import Thread
 from colorama import Fore
 from hebeo import irc, tools
 
@@ -39,10 +40,26 @@ for section in cfgSect:
         tools.debug("{0} -> {1}".format(option, config.get(section, option)))
     tools.debug("")
 
-tools.debug("Starting IRC initialisation for server {0} ({1}:{2}) and identification {3}!{4}@host:\"{5}\" for chans {6}".format(config['irc1']['name'],config['irc1']['host'],config['irc1']['port'],config['irc1']['nick'],config['irc1']['ident'],config['irc1']['realname'],','.join(config['irc1']['chans'].split())))
-tools.debug("")
+#tools.debug("Starting IRC initialisation for server {0} ({1}:{2}) and identification {3}!{4}@host:\"{5}\" for chans {6}".format(config['irc1']['name'],config['irc1']['host'],config['irc1']['port'],config['irc1']['nick'],config['irc1']['ident'],config['irc1']['realname'],','.join(config['irc1']['chans'].split())))
+#tools.debug("")
 
-i = [None,None,None,None,None,None]
-i[0] = irc.Irc(config['ouroboros'], config['irc1'])
-i[0].status()
-i[0].connect()
+#i = [None,None,None,None,None,None]
+#i[0] = irc.Irc(config['ouroboros'], config['irc1'])
+#i[0].status()
+#i[0].connect()
+
+#for j, section in enumerate(cfgSect):
+#    print('{0} -> {1}'.format(j,section))
+
+i = []
+i.append(0)
+for j, section in enumerate(cfgSect):
+    if section == "ouroboros":
+        pass
+    elif config.get(section, "connect") == "1":
+            tools.debug("Starting IRC initialisation for server {0} ({1}:{2}) and identification {3}!{4}@host:\"{5}\" for chans {6}".format(config[section]['name'],config[section]['host'],config[section]['port'],config[section]['nick'],config[section]['ident'],config[section]['realname'],','.join(config[section]['chans'].split())))
+            i.append(j)
+            i[j] = irc.Irc(config['ouroboros'], config[section])
+            i[j].status()
+            tools.debug("bla bla bla bla")
+            Thread(target=i[j].goirc()).start()

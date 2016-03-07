@@ -30,7 +30,7 @@ class Irc(object):
         print(Fore.CYAN + "Administrative channel : " + Fore.RESET + "{0}".format(self.adminchan))
         print(Fore.CYAN + "Encoding               : " + Fore.RESET + "{0}".format(self.encoding))
 
-    def connect(self):
+    def goirc(self):
         self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.s.settimeout(300)
         try:
@@ -65,7 +65,7 @@ class Irc(object):
                         except timeout:
                             tools.prtErr('Timeout : ' + str(sys.exc_info()))
                             self.flag = False;
-                            self.connect()
+                            self.goirc()
                         except:
                             tools.prtErr('Problem with the reading : ' + str(sys.exc_info()))
                             continue
