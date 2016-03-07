@@ -32,7 +32,7 @@ class Irc(object):
 
     def connect(self):
         self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.s.settimeout(180)
+        self.s.settimeout(300)
         try:
             self.s.connect((self.host, self.port))
         except socket.error:
@@ -62,8 +62,12 @@ class Irc(object):
                         except (ConnectionResetError, BrokenPipeError):
                             self.flag = False;
                             pass
+                        except timeout:
+                            tools.prtErr('Timeout : ' + str(sys.exc_info()))
+                            self.flag = False;
+                            self.connect()
                         except:
-                            tools.prtErr('Problem with the reading !!' + str(sys.exc_info()))
+                            tools.prtErr('Problem with the reading : ' + str(sys.exc_info()))
                             continue
             except KeyboardInterrupt:
                 tools.prtErr("Interrupted.")
