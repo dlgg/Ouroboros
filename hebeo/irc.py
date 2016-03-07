@@ -63,7 +63,7 @@ class Irc(object):
                             self.flag = False;
                             pass
                         except:
-                            tools.prtErr('Problem with the reading !!', sys.exc_info())
+                            tools.prtErr('Problem with the reading !!' + str(sys.exc_info()))
                             continue
             except KeyboardInterrupt:
                 tools.prtErr("Interrupted.")
