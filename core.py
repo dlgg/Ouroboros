@@ -60,8 +60,4 @@ for j, section in enumerate(cfgSect):
             tools.debug("Starting IRC initialisation for server {0} ({1}:{2}) and identification {3}!{4}@host:\"{5}\" for chans {6}".format(config[section]['name'],config[section]['host'],config[section]['port'],config[section]['nick'],config[section]['ident'],config[section]['realname'],','.join(config[section]['chans'].split())))
             i.append(irc.Irc(config['ouroboros'], config[section]))
             i[j].status()
-            tools.debug("bla bla bla bla")
-            t = Thread(target=i[j].goirc())
-            t.daemon = True
-            t.start()
-            #Thread(target=i[j].goirc()).start()
+            Thread(target=i[j].goirc).start()
