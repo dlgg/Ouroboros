@@ -3,9 +3,13 @@
 
 print("Loading class Irc :", end=" ")
 
-import socket, sys, select, time
-from . import tools
+import socket, sys, select, time, re
+from . import tools, youtube
 from colorama import Fore, Style
+
+pattern={}
+pattern['yt']='.*https?://(youtu.be/|(www.)?youtube.com/watch?v=)(.{10}).*'
+ytre=re.compile(pattern['yt'])
 
 class Irc(object):
 
@@ -98,6 +102,7 @@ class Irc(object):
         #ident = fullnick.split("!")[1].split("@")[0]
         #hostname = fullnick.split("@")[1]
         dest = msgs[2]
+        content = ' '.join(msgs[3:])
         if dest.lower() == self.adminchan.lower():
             tools.debug(msgs[3][1:])
             cmd = { '%join': self._cmdJoin, '%part':self._cmdPart, '%quit':self._cmdQuit }
@@ -106,8 +111,13 @@ class Irc(object):
             except:
                 #self.send("PRIVMSG {0} :Message reçu de {1} pour {2} > {3}".format(adminchan, nick, dest, ' '.join(msgs[3:])[1:]))
                 pass
-        else:
-            self.send("PRIVMSG {0} :Message reçu de {1} pour {2} > {3}".format(self.adminchan, nick, dest, ' '.join(msgs[3:])[1:]))
+        #else:
+        #    self.send("PRIVMSG {0} :Message reçu de {1} pour {2} > {3}".format(self.adminchan, nick, dest, ' '.join(msgs[3:])[1:]))
+        if dest[0] == '#':
+            re=ytre.search(content)
+            if re:
+                stats=ytVideoStats(re.group(2))
+                self.send("PRIVMSG {} :YOUTUBE : {} | Durée : {} | Vues : {} | J'aime : {} | Je n'aime pas : {}".format(dest, stats['title'], stats['view'], stats['duration'], stats['like'], stats['dislike']))
 
     def _notice(self, msg):
         msgs = msg.split()
