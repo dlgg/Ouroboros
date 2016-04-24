@@ -8,7 +8,7 @@ from . import tools, youtube
 from colorama import Fore, Style
 
 pattern={}
-pattern['yt']='.*https?://(youtu.be/|(www.)?youtube.com/watch?v=)(.{10}).*'
+pattern['yt']='.*https?://(youtu.be/|(www.)?youtube.com/watch\?v=)(?P<videoid>.+)( |/).*$'
 ytre=re.compile(pattern['yt'])
 
 class Irc(object):
@@ -114,10 +114,14 @@ class Irc(object):
         #else:
         #    self.send("PRIVMSG {0} :Message reçu de {1} pour {2} > {3}".format(self.adminchan, nick, dest, ' '.join(msgs[3:])[1:]))
         if dest[0] == '#':
+            print("Message envoyé au salon {}".format(dest))
             re=ytre.search(content)
             if re:
-                stats=ytVideoStats(re.group(2))
-                self.send("PRIVMSG {} :YOUTUBE : {} | Durée : {} | Vues : {} | J'aime : {} | Je n'aime pas : {}".format(dest, stats['title'], stats['view'], stats['duration'], stats['like'], stats['dislike']))
+                print("Find YouTube video {}".format(re.group('videoid')))
+                stats=youtube.ytVideoStats(re.group('videoid'))
+                self.send("PRIVMSG {} :\00301,00You\00300,04Tube\017 {} | Durée : {} | Vues : {} | J'aime : {} | Je n'aime pas : {}".format(dest, stats['title'], stats['view'], stats['duration'], stats['like'], stats['dislike']))
+        else:
+            print("Message privé de {}".format(dest))
 
     def _notice(self, msg):
         msgs = msg.split()
