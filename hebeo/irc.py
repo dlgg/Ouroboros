@@ -3,12 +3,12 @@
 
 print("Loading class Irc :", end=" ")
 
-import socket, sys, select, time, re
+import socket, sys, select, time, re, datetime
 from . import tools, youtube
 from colorama import Fore, Style
 
 pattern={}
-pattern['yt']='.*https?://(youtu.be/|(www.)?youtube.com/watch\?v=)(?P<videoid>.+)( |/).*$'
+pattern['yt']='.*https?://(youtu.be/|(www.)?youtube.com/watch\?v=)(?P<videoid>.{9,12})( .*$|/.*$|$)'
 ytre=re.compile(pattern['yt'])
 
 class Irc(object):
@@ -114,14 +114,14 @@ class Irc(object):
         #else:
         #    self.send("PRIVMSG {0} :Message reçu de {1} pour {2} > {3}".format(self.adminchan, nick, dest, ' '.join(msgs[3:])[1:]))
         if dest[0] == '#':
-            print("Message envoyé au salon {}".format(dest))
             re=ytre.search(content)
             if re:
                 print("Find YouTube video {}".format(re.group('videoid')))
                 stats=youtube.ytVideoStats(re.group('videoid'))
-                self.send("PRIVMSG {} :\00301,00You\00300,04Tube\017 {} | Durée : {} | Vues : {} | J'aime : {} | Je n'aime pas : {}".format(dest, stats['title'], stats['view'], stats['duration'], stats['like'], stats['dislike']))
+                self.send("PRIVMSG {} :\002\00301,00You\00300,04Tube\017\002 {} \002{} | Durée : {} | Vues : {} | J'aime : {} | Je n'aime pas : {}".format(dest, stats['user'], stats['title'], str(datetime.timedelta(seconds=stats['duration'])), stats['view'], stats['like'], stats['dislike']))
         else:
-            print("Message privé de {}".format(dest))
+            pass
+            #print("Message privé de {}".format(dest))
 
     def _notice(self, msg):
         msgs = msg.split()
@@ -187,4 +187,3 @@ class Irc(object):
         self.flag = False
         self.s.close()
 
-print("\033[92mOK\033[0m")
