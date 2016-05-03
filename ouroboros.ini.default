@@ -10,6 +10,7 @@ port=6667
 nick=kaa
 ident=python
 realname=Petit bot en python
+password=kaakaakaakaa
 chans=#SG #security
 connect=1
 
@@ -21,6 +22,7 @@ port=6667
 nick=OuroPy
 ident=python
 realname=Petit bot en python
+password=
 chans=#computer
 connect=0
 
@@ -32,5 +34,6 @@ port=6666
 nick=PersoBot
 ident=python
 realname=Petit bot en python
+password=
 chans=#Perso
 connect=0

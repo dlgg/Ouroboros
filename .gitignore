@@ -1,4 +1,5 @@
 *.py[cod]
+ouroboros.ini
 
 # C extensions
 *.so
