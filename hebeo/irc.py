@@ -62,6 +62,7 @@ class Irc(object):
                             tools.prtErr("Interrupted.")
                             self._cmdQuit("")
                         except UnicodeDecodeError:
+                            tools.prtErr("Unicode error.")
                             pass
                         except (ConnectionResetError, BrokenPipeError):
                             self.flag = False;
