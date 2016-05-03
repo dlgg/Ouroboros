@@ -189,5 +189,5 @@ class Irc(object):
 
     def _cmdSay(self, msg):
         msgs = msg.split()
-        self.send("PRIVMSG {} :{}".format(msgs[4], msgs[5:]))
+        self.send("PRIVMSG {} :{}".format(msgs[4], ' '.join(msgs[5:])))
 
