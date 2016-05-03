@@ -105,7 +105,7 @@ class Irc(object):
         content = ' '.join(msgs[3:])
         if dest.lower() == self.adminchan.lower():
             tools.debug(msgs[3][1:])
-            cmd = { '%join': self._cmdJoin, '%part':self._cmdPart, '%quit':self._cmdQuit }
+            cmd = { '%join': self._cmdJoin, '%part':self._cmdPart, '%quit':self._cmdQuit, '%say':self._cmdSay }
             try:
                 cmd.get(msgs[3][1:])(msg)
             except:
@@ -186,4 +186,8 @@ class Irc(object):
         time.sleep(2)
         self.flag = False
         self.s.close()
+
+    def _cmdSay(self, msg):
+        msgs = msg.split()
+        self.send("PRIVMSG {} :{}".format(msgs[4], msgs[5:]))
 
